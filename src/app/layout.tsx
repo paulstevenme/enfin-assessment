@@ -25,11 +25,9 @@ export default async function RootLayout({ children }: ChildrenProps) {
     <html lang="en">
       <body
         className={`${inter.className} h-full flex flex-col justify-between`}
+        style={{background:"#f5f5f5"}}
       >
-        <section className="flex-1">
-          <QueryProvider>{children}</QueryProvider>
-        </section>
-        <MainFooter />
+       {children}
       </body>
     </html>
   );
