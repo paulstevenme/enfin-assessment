@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Typography, MenuItem, Select, Button } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -8,11 +8,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
 
 export default function ParticipantAvailability() {
-  const participants = {
-    1: { name: 'Adam', threshold: 4 },
-    2: { name: 'Bosco', threshold: 4 },
-    3: { name: 'Catherine', threshold: 5 },
-  };
+    const [participants, setParticipants] = useState<Record<string, any>>({});
 
   const [selectedParticipants, setSelectedParticipants] = useState<string[]>([]);
   const [startDate, setStartDate] = useState<Dayjs | null>(dayjs());
@@ -43,6 +39,16 @@ export default function ParticipantAvailability() {
     const data = await response.json();
     setAvailableSlots(data?.availableSlots);
   };
+
+  useEffect(() => {
+    const fetchParticipants = async () => {
+      const response = await fetch('/api/participants');
+      const data = await response.json();
+      setParticipants(data?.participants);
+    };
+
+    fetchParticipants();
+  }, []);
 
   return (
     <div>
